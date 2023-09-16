@@ -1,0 +1,23 @@
+<form [formGroup]="constantsForm">
+
+  <h2 mat-dialog-title>Model Parameters</h2>
+
+  <mat-dialog-content>
+
+    <p>Advanced use only: modify the model parameters to alter the model behaviour [warning, changing these parameters can lead to unrealistic model output]</p>
+
+    <ng-container *ngFor="let constant of constantsArr;">
+      <mat-form-field appearance="outline">
+        <mat-label [innerHTML]="constant.symbol"></mat-label>
+        <input matInput placeholder="{{ constant.label }}" type="text" formControlName="{{ constant.label }}" required>
+        <mat-icon matSuffix matTooltip="{{ constant.description }}">help</mat-icon>
+      </mat-form-field>
+    </ng-container>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Close</button>
+  </mat-dialog-actions>
+
+</form>

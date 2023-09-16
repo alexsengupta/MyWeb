@@ -1,0 +1,20 @@
+.ForcingOutput {
+
+  &__hd {
+
+  }
+
+  &__name {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: {
+      top: 0;
+      bottom: 8px;
+    }
+  }
+
+  &__bd {
+    font-size: 13px;
+  }
+}

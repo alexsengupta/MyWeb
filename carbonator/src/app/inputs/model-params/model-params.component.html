@@ -1,0 +1,8 @@
+<div class="ModelParamsCustomiser">
+  <ng-container *ngIf="!canEdit">
+    <button class="Simulation__customiserAction ModelParamsCustomiser__action ModelParamsCustomiser__action--viewer" mat-stroked-button (click)="openParamsDialog()">View Model Parameters <mat-icon>arrow_right</mat-icon></button>
+  </ng-container>
+  <ng-container *ngIf="canEdit">
+    <button class="Simulation__customiserAction ModelParamsCustomiser__action ModelParamsCustomiser__action--editor" mat-stroked-button (click)="openParamsEditorDialog()">Edit Model Parameters <mat-icon>arrow_right</mat-icon></button>
+  </ng-container>
+</div>

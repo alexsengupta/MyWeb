@@ -1,0 +1,178 @@
+.Simulation {
+  $root: &;
+
+  padding-top: 64px;
+
+  &__header {
+    position: fixed;
+    top: 64px;
+    left: 160px;
+    right: 0;
+    z-index: z(simulationHeader);
+  }
+
+  &__scenarioName {
+    font-family: 'Roboto Slab';
+  }
+
+  &__modifiedLabel {
+    font-size: 60%;
+    font-weight: 400;
+  }
+
+  &__action {
+
+    &--return {
+      opacity: 0.75;
+    }
+
+    &--resetPre {
+      opacity: 0.75;
+      margin-left: 10px !important;
+    }
+
+    &--downloadPre {
+      opacity: 0.75;
+    }
+
+    &--downloadOutputs {
+      opacity: 0.75;
+      margin-left: 10px !important;
+    }
+
+    &--resetPost {
+      margin-left: 10px !important;
+    }
+
+    &--run {
+      margin-left: 10px !important;
+    }
+  }
+
+  &__lede {
+    overflow: hidden;
+    padding: 16px;
+    background-color: #FFF;
+  }
+
+  &__meta {
+    float: left;
+    width: 400px;
+
+    @include mq-from(sim-bp1) {
+      min-width: 400px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    &--post {
+
+    }
+  }
+
+  &__customisers {
+    float: right;
+    width: calc(100% - 400px);
+    margin-left: 16px;
+    max-width: 360px;
+  }
+
+  &__customiser {
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &--intVariabilityToggle {
+
+    }
+
+    &--modelParamsEditor {
+
+    }
+
+    &Action {
+      border-color: #CCC !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      color: #333 !important;
+    }
+  }
+
+  &__help {
+    padding: 16px 16px 0;
+  }
+
+  &__helper {
+    padding: 16px;
+    background-color: #607d8b;
+    color: #FFF;
+    position: relative;
+
+    &--pre {
+
+    }
+
+    &--post {
+      padding: 8px;
+      margin-bottom: 16px;
+      font-weight: 500;
+
+      .Simulation__helperContent {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__helperIcon {
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    height: 24px;
+  }
+
+  &__helperContent {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 40px;
+
+    > p {
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__forcing {
+    margin-bottom: 16px;
+
+    //@include mq-from(forcing-bp1) {
+    //  width: 50%;
+    //}
+  }
+
+  &__output {
+
+    #{$root} {
+
+      &__forcings {
+        width: 30%;
+        max-width: 300px !important;
+      }
+
+      &__forcingsWrap {
+        padding-right: 16px;
+      }
+
+      &__moreWrap {
+        padding-left: 16px;
+        border-left: 2px solid #CCC;
+      }
+    }
+  }
+}

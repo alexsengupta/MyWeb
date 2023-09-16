@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Switch user mode</h2>
+
+<mat-dialog-content>
+  <div class="mat-typography">
+    <p *ngIf="(readOnly$ | async)">You're switching to advanced mode!</p>
+    <ng-container *ngIf="!(readOnly$ | async)">
+      <p><strong>Are you sure you want to switch back to standard mode?</strong></p>
+      <p>Any changes you have made to simulations will be reverted to their preset states.</p>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="accent" (click)="continue()">Continue</button>
+</mat-dialog-actions>

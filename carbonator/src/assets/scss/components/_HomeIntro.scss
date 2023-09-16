@@ -1,0 +1,40 @@
+.HomeIntro {
+  @include clearfix;
+
+  &__title {
+    font-size: 32px;
+    line-height: 1.2;
+    font-family: $font-family-serif;
+    font-weight: $font-weight-bold;
+    margin-bottom: 16px;
+    margin: {
+      top: 0;
+      bottom: 16px;
+    }
+  }
+
+  &__content {
+    float: left;
+    width: 50%;
+    padding-right: 16px;
+
+    > p {
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__actions {
+    float: left;
+    width: 50%;
+    padding-left: 16px;
+  }
+
+  &__action {
+    width: 100%;
+    margin-top: 8px !important;
+  }
+}

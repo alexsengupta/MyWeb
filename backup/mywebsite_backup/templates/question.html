@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ question.title }}</h1>
+<p>{{ question.content | safe }}</p>
+<p><strong>Posted by:</strong> {{ question.author.name }} on {{ question.date_posted.strftime('%Y-%m-%d') }}</p>
+<hr>
+<h2>Answers</h2>
+{% for answer in answers %}
+<div class="answer">
+    <p>{{ answer.content | safe }}</p>
+    <p><strong>Posted by:</strong> {{ answer.author.name }} on {{ answer.date_posted.strftime('%Y-%m-%d') }}</p>
+</div>
+<hr>
+{% endfor %}
+{% endblock %}

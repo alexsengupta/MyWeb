@@ -1,0 +1,58 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  height: 100%;
+  display: flex;
+  width: 100%;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body { margin: 0; }
+
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+mat-sidenav-layout {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 320px;
+}
+
+mat-sidenav a {
+  box-sizing: border-box;
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 47px;
+  text-decoration: none;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  padding: 0 16px;
+  position: relative;
+}
+
+
+.container {
+  display: flex;
+  margin: 10px;
+  flex-wrap: wrap;
+}
+
+.container [class*="col"] {
+  padding: 10px;
+  flex: 1;
+}

@@ -1,0 +1,31 @@
+<div class="ScenariosList" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-between">
+
+  <div class="ScenariosList__scenario" *ngFor="let scenario of scenarios$ | async" fxFlex="0 1 50%">
+
+    <div class="ScenariosList__inner">
+
+      <mat-card class="ScenariosList__card">
+        <mat-card-content fxLayout="row">
+
+            <div fxFlex="0 1 30%" class="ScenariosList__flexImg">
+              <img class="ScenariosList__img" style="max-width: 100%; height: auto;" src="{{ scenario.imageUrl }}">
+            </div>
+            <div fxFlex="1 2 70%" class="ScenariosList__flexContent">
+              <div class="ScenariosList__content mat-typography">
+                <h2 class="ScenariosList__title" [innerHTML]="scenario.name"></h2>
+                <p class="ScenariosList__summary" [innerHTML]="scenario.summary"></p>
+              </div>
+              <div class="ScenariosList__actions">
+                <a class="ScenariosList__action ScenariosList__action--start" mat-raised-button [routerLink]="['/scenario', scenario.id]" color="accent">Start</a>
+                <a class="ScenariosList__action ScenariosList__action--more" mat-button (click)="openScenarioPreviewDialog(scenario.id)">Learn more</a>
+              </div>
+            </div>
+
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+  </div>
+
+</div>

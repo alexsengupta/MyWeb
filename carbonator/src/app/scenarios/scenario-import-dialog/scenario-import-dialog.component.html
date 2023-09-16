@@ -1,0 +1,24 @@
+
+<h2 mat-dialog-title>Import a Carbonator Scenario</h2>
+
+<form [formGroup]="importForm" (ngSubmit)="onSubmitImportForm()">
+
+  <mat-dialog-content>
+    <mat-form-field style="width: 100%;">
+      <ngx-mat-file-input formControlName="requiredfile" placeholder="Attach scenario csv" valuePlaceholder="Click to attach" required></ngx-mat-file-input>
+      <mat-icon matSuffix>attach_file</mat-icon>
+      <mat-error *ngIf="importForm.get('requiredfile').hasError('required')">
+        Please select a CSV file
+      </mat-error>
+      <mat-error *ngIf="importForm.get('requiredfile').hasError('fileType')">
+        You must upload a csv file only
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+    <button [disabled]="importForm.invalid" mat-raised-button color="accent" type="submit">Import Scenario</button>
+  </mat-dialog-actions>
+
+</form>

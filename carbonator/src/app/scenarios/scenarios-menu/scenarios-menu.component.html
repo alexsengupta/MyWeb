@@ -1,0 +1,36 @@
+<div class="ScenarioMenu__header">
+  <span>Select Scenario:</span>
+</div>
+
+<mat-nav-list>
+  <mat-list-item *ngFor="let scenario of scenarios$ | async">
+    <a matLine [routerLink]="['/scenario', scenario.id]" routerLinkActive="active" [innerHTML]="scenario.label"></a>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <button mat-button (click)="importScenario()" style="width: 100%; font-size: 12px; text-align: left; background-color:#607d8b;"><strong>+ Import scenario</strong></button>
+  </mat-list-item>
+  <mat-list-item>
+    <a matLine href="/" target="_blank" style="margin-top: 3px; background-color:#607d8b; text-align: left;"><strong>+ Compare in new tab</strong></a>
+  </mat-list-item>
+  <!--<mat-list-item *ngIf="!(readOnly$ | async)">-->
+    <!--<br><br>-->
+    <!--<button mat-button (click)="importScenario()"><mat-icon>add</mat-icon> Import scenario</button>-->
+  <!--</mat-list-item>-->
+  <!--<mat-list-item>-->
+    <!--<a matLine href="#">RCP8.5</a>-->
+    <!--<a (click)="alert('here')">-->
+    <!--<mat-icon>expand_less</mat-icon>-->
+    <!--</a>-->
+  <!--</mat-list-item>-->
+  <!--<ng-container>-->
+  <!--<mat-nav-list dense>-->
+  <!--<mat-list-item>-->
+  <!--<a matLine href="#">Run 1</a>-->
+  <!--</mat-list-item>-->
+  <!--<mat-list-item>-->
+  <!--<a matLine href="#">Run 2</a>-->
+  <!--</mat-list-item>-->
+  <!--</mat-nav-list>-->
+  <!--</ng-container>-->
+</mat-nav-list>

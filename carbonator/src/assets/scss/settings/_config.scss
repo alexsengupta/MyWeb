@@ -1,0 +1,19 @@
+$font-family-sans-serif: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-serif: Roboto Slab, Georgia, Cambria, "Times New Roman", Times, serif;
+
+$font-weight-light: 300;
+$font-weight-medium: 500;
+$font-weight-thin: $font-weight-light;
+$font-weight-bold: $font-weight-medium;
+$font-weight-heavy: $font-weight-medium;
+
+$z-index: (
+  masthead: 100,
+  simulationHeader: 200,
+  widthWarning: 999
+);
+
+$mq-breakpoints: (
+  widthWarning: 1024px,
+  sim-bp1: 1170px
+)

@@ -1,0 +1,16 @@
+$z-index: () !default;
+
+@function z($key) {
+	@if ($z-index) {
+		@if map-has-key($z-index, $key) {
+			@return map-get($z-index, $key);
+
+		} @else {
+			@warn "No value could be retrieved from `#{$key}`. "
+		    + "Please make sure it is defined in a `$z-index` map.";
+		}
+
+	} @else {
+		@warn "No `$z-index` map exists. Please define this before using the `z-index` function.";
+	}
+}

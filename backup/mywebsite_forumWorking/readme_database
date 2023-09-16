@@ -1,0 +1,11 @@
+
+sqlite3 instance/climate_forum.db
+
+# to see all entries:
+
+SELECT * FROM user;
+
+# to delete an entrry:
+DELETE FROM table_name WHERE condition;
+e.g.
+DELETE FROM user WHERE id = 1;

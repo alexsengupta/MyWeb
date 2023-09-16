@@ -1,0 +1,233 @@
+<div class="Simulation">
+
+  <div class="Simulation__header">
+    <mat-toolbar [color]="simulation.isRunComplete ? 'accent' : 'primary'">
+      <mat-toolbar-row style="justify-content: space-between;">
+        <span><span class="Simulation__scenarioName" [innerHTML]="simulation.scenario.name"></span>&nbsp;<ng-container *ngIf="simulation.isModified"><sup class="Simulation__modifiedLabel">*modified</sup></ng-container></span>
+        <span>
+          <ng-container *ngIf="simulation.isRunComplete">
+            <button class="Simulation__action Simulation__action--return" mat-raised-button (click)="revertRun()"><mat-icon>keyboard_return</mat-icon> Continue editing</button>
+            <button class="Simulation__action Simulation__action--resetPost" mat-raised-button (click)="resetSimulation()" color="primary"><mat-icon>refresh</mat-icon> Reset scenario</button>
+          </ng-container>
+          <ng-container *ngIf="!simulation.isRunComplete">
+            <button class="Simulation__action Simulation__action--resetPre" mat-raised-button (click)="resetSimulation()"><mat-icon>refresh</mat-icon> Reset scenario</button>
+            <button class="Simulation__action Simulation__action--run" mat-raised-button (click)="runSimulation()" color="accent"><mat-icon>play_arrow</mat-icon> Run scenario</button>
+          </ng-container>
+        </span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+
+  <div class="Simulation__lede">
+
+    <div class="Simulation__meta" [ngClass]="{'Simulation__meta--post': simulation.isRunComplete}">
+
+      <div class="SimulationMeta">
+
+        <img class="SimulationMeta__img" src="{{ simulation.scenario.imageUrl }}">
+
+        <div class="SimulationMeta__items">
+          <p class="SimulationMeta__item SimulationMeta__item--name" [innerHTML]="simulation.scenario.name"></p>
+          <p class="SimulationMeta__item SimulationMeta__item--range"><span class="SimulationMeta__rangeLabel">Range: </span>{{ simulation.scenario.range.start }} - {{ simulation.scenario.range.end }}<span class="SimulationMeta__rangeType" *ngIf="simulation.scenario.range.type === 'count'"> years</span></p>
+          <p class="SimulationMeta__item SimulationMeta__item--summary" [innerHTML]="simulation.scenario.summary"></p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="Simulation__customisers" *ngIf="!simulation.isRunComplete">
+
+      <div class="Simulation__customiser Simulation__customiser--intVariabilityToggle">
+        <app-internal-variability-forcing [simulation]="simulation" (modify)="modifySimulationForcing($event)"></app-internal-variability-forcing>
+      </div>
+
+      <div class="Simulation__customiser Simulation__customiser--modelParamsEditor" *ngIf="!isReadOnly">
+        <app-model-params [simulation]="simulation" (modify)="modifySimulationConstants($event)"></app-model-params>
+      </div>
+
+      <div class="Simulation__customiser Simulation__customiser--export" *ngIf="!isReadOnly || isReadOnly">
+        <button class="Simulation__customiserAction Simulation__customiserAction--export" mat-stroked-button (click)="exportSimulation()">Save scenario configuration to CSV <mat-icon>save_alt</mat-icon></button>
+      </div>
+
+    </div>
+
+    <div class="Simulation__customisers" *ngIf="simulation.isRunComplete">
+
+      <div class="Simulation__customiser Simulation__customiser--export">
+        <button class="Simulation__customiserAction Simulation__customiserAction--export" mat-stroked-button (click)="exportSimulationOutputs()">Export output data to CSV <mat-icon>save_alt</mat-icon></button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="Simulation__help" *ngIf="!simulation.isRunComplete">
+
+    <div class="Simulation__helper Simulation__helper--pre">
+      <div class="Simulation__helperIcon">
+        <mat-icon>help_outline</mat-icon>
+      </div>
+      <div class="Simulation__helperContent">
+        <p>To get started, review and experiment with the forcings below and click 'Run Scenario' to view your simulation outputs.</p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="Simulation__body" style="padding: 16px;">
+
+    <ng-container *ngIf="simulation.isRunComplete">
+
+      <div class="Simulation__output" fxLayout="row">
+
+        <div class="Simulation__forcings" fxFlex="30">
+          <div class="Simulation__forcingsWrap">
+
+            <div class="Simulation__helper Simulation__helper--post">
+              <div class="Simulation__helperContent">Inputs:</div>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-internal-variability-forcing-output [simulation]="simulation" [key]="'internalVariability'"></app-internal-variability-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'co2'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'ch4'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'so2'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'volcanics'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'tsi'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-forcing-output [simulation]="simulation" [key]="'albedo'"></app-forcing-output>
+            </div>
+
+            <div class="Simulation__forcing" *ngIf="!isReadOnly">
+              <app-model-params-output [simulation]="simulation"></app-model-params-output>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="Simulation__outputData" fxFlex="70">
+          <div class="Simulation__moreWrap">
+
+            <div class="Simulation__helper Simulation__helper--post">
+              <div class="Simulation__helperContent">Outputs:</div>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'baseTemperatures'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'seaLevel'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'ph'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'co2Concentration'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'ch4Concentration'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'gg'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'aerosols'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'atUpLo'"></app-output>
+            </div>
+
+            <div class="Simulation__forcing">
+              <app-output [simulation]="simulation" [key]="'vegSoilNPP'"></app-output>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="!simulation.isRunComplete">
+
+      <!--<div class="Simulation__input" fxLayout="row">-->
+      <div class="Simulation__input">
+
+        <!--<div class="Simulation__forcings" fxFlex="80">-->
+          <!--<div class="Simulation__forcingsWrap" style="padding-right: 8px;">-->
+
+            <div class="Simulation__forcing">
+              <app-forcing [simulation]="simulation" [key]="'co2'" (modify)="modifySimulationForcing($event)"></app-forcing>
+            </div>
+
+        <div class="Simulation__forcing">
+              <app-forcing [simulation]="simulation" [key]="'ch4'" (modify)="modifySimulationForcing($event)"></app-forcing>
+            </div>
+
+        <div class="Simulation__forcing">
+              <app-forcing [simulation]="simulation" [key]="'so2'" (modify)="modifySimulationForcing($event)"></app-forcing>
+            </div>
+
+        <div class="Simulation__forcing">
+              <app-volcanics-forcing [simulation]="simulation" (modify)="modifySimulationForcing($event)"></app-volcanics-forcing>
+            </div>
+
+        <div class="Simulation__forcing">
+              <app-tsi-forcing [simulation]="simulation" (modify)="modifySimulationForcing($event)"></app-tsi-forcing>
+            </div>
+
+        <div class="Simulation__forcing">
+              <app-forcing [simulation]="simulation" [key]="'albedo'" (modify)="modifySimulationForcing($event)"></app-forcing>
+            </div>
+
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="Simulation__more" fxFlex="20">-->
+          <!--<div class="Simulation__moreWrap" style="padding-left: 8px;">-->
+
+            <!--<div class="Simulation__variability" style="margin-bottom: 16px;">-->
+              <!--<app-internal-variability-forcing [simulation]="simulation" (modify)="modifySimulationForcing($event)"></app-internal-variability-forcing>-->
+            <!--</div>-->
+
+            <!--<div class="Simulation__modelParams" *ngIf="!isReadOnly">-->
+              <!--<app-model-params [simulation]="simulation" (modify)="modifySimulationConstants($event)"></app-model-params>-->
+            <!--</div>-->
+
+          <!--</div>-->
+        <!--</div>-->
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+
+</div>

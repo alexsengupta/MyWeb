@@ -1,0 +1,73 @@
+<mat-card class="ForcingCard">
+  <div class="Forcing Forcing--{{ key }}" fxLayout="row" fxLayoutGap="16px">
+    <div class="Forcing__hd" fxFlex="30">
+      <h3 class="Forcing__name" [innerHTML]="meta.name"></h3>
+      <p class="Forcing__summary" [innerHTML]="meta.summary"></p>
+      <div class="Forcing__actions">
+        <div class="Forcing__action Forcing__action--enabled" *ngIf="canUpdateIsEnabled">
+          <div class="Forcing__actionLabel">Enable forcing:</div>
+          <div class="Forcing__actionField">
+            <mat-slide-toggle class="Forcing__enabledToggle" matTooltip="Enable/Disable this forcing" [checked]="isEnabled" (change)="doUpdateIsEnabled($event)"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="Forcing__action Forcing__action--nodes" *ngIf="canUpdateNodesCount">
+          <div class="Forcing__actionLabel">Nodes count:</div>
+          <div class="Forcing__actionField">
+            <div class="Forcing__nodesToggle">
+              <mat-button-toggle-group class="Forcing__nodes" value="{{ nodesCount }}" (change)="doUpdateNodesCount($event)">
+                <mat-button-toggle *ngFor="let nodeOption of nodes;" value="{{ nodeOption }}"><span *ngIf="nodeOption === 0">Annual</span><span *ngIf="nodeOption !== 0">{{ nodeOption }}</span></mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+        </div>
+        <div class="Forcing__action Forcing__action--reset" *ngIf="canReset">
+          <button class="Forcing__reset" mat-raised-button (click)="doReset()" matTooltip="Reset data & settings to scenario presets">Reset Forcing</button>
+        </div>
+      </div>
+    </div>
+    <div class="Forcing__bd" fxFlex="70">
+      <div class="Forcing__chartWrap">
+        <app-highcharts-chart
+          class="Forcing__chart"
+          [Highcharts]="Highcharts"
+          [constructorType]="chartConstructor"
+          [options]="chartOptions"
+          [(update)]="updateFlag"
+          [flagOneToOne]="flagOneToOne"
+          style="width: 100%; height: 300px; display: block;"
+        ></app-highcharts-chart>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<!--<mat-card fxLayout="row" fxLayoutGap="32px">-->
+  <!--<mat-card-content fxFlex="40">-->
+    <!--<mat-card-title></mat-card-title>-->
+    <!--<mat-card-subtitle></mat-card-subtitle>-->
+    <!--<mat-slide-toggle *ngIf="canUpdateIsEnabled" [checked]="isEnabled" (change)="doUpdateIsEnabled($event)"></mat-slide-toggle>-->
+    <!--<ng-container *ngIf="canUpdateNodesCount">-->
+      <!--<br><br>-->
+      <!--<mat-button-toggle-group value="{{ nodesCount }}" (change)="doUpdateNodesCount($event)">-->
+        <!--<mat-button-toggle *ngFor="let nodeOption of nodes;" value="{{ nodeOption }}"><span *ngIf="nodeOption === 0">Annual</span><span *ngIf="nodeOption !== 0">{{ nodeOption }}</span></mat-button-toggle>-->
+      <!--</mat-button-toggle-group>-->
+    <!--</ng-container>-->
+    <!--<ng-container *ngIf="canReset">-->
+      <!--<br><br>-->
+      <!--<button style="margin-top: 100px;" mat-raised-button (click)="doReset()">Reset</button>-->
+    <!--</ng-container>-->
+  <!--</mat-card-content>-->
+  <!--<mat-card-content fxFlex="60">-->
+    <!--<app-highcharts-chart-->
+      <!--[Highcharts]="Highcharts"-->
+
+      <!--[constructorType]="chartConstructor"-->
+      <!--[options]="chartOptions"-->
+
+      <!--[(update)]="updateFlag"-->
+      <!--[flagOneToOne]="flagOneToOne"-->
+
+      <!--style="width: 100%; height: 400px; display: block;"-->
+    <!--&gt;</app-highcharts-chart>-->
+  <!--</mat-card-content>-->
+<!--</mat-card>-->

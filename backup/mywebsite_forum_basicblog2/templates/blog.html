@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Blog</h1>
+
+{% for post in posts %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    <p>Posted on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+    <p>{{ post.content }}</p>
+    {% if current_user.is_authenticated and current_user.admin %}
+    <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}">
+        <input type="submit" value="Delete">
+    </form>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% if current_user.is_authenticated and current_user.admin %}
+<div class="new-post">
+    <h2>Create a New Post</h2>
+    <form method="POST" action="{{ url_for('create_post') }}">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endif %}
+{% endblock %}
+
+
+

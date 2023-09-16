@@ -1,0 +1,33 @@
+.o-Container {
+  max-width: rem(1200) + vr(4);
+  position: relative;
+  margin: {
+    left: auto;
+    right: auto;
+  }
+  padding: {
+    left: vr(1);
+    right: vr(1);
+  }
+
+  @include mq-from(container-bp1) {
+    padding: {
+      left: vr(1.5);
+      right: vr(1.5);
+    }
+  }
+
+  @include mq-from(container-bp2) {
+    padding: {
+      left: vr(2);
+      right: vr(2);
+    }
+  }
+
+  @media print {
+    padding: {
+      left: 0;
+      right: 0;
+    }
+  }
+}

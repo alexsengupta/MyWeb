@@ -1,0 +1,20 @@
+<mat-card class="ForcingCard">
+  <div class="ForcingOutput">
+    <div class="ForcingOutput__hd">
+      <h3 class="ForcingOutput__name">Model Parameters</h3>
+    </div>
+    <div class="ForcingOutput__bd">
+      <button (click)="toggleContent()" mat-flat-button>
+        <span *ngIf="!showContent">View</span>
+        <span *ngIf="showContent">Hide</span>
+      </button>
+      <div *ngIf="showContent" class="mat-typography">
+        <ul style="padding-left: 16px;">
+          <li *ngFor="let key of constantsKeys;">
+            <strong>{{ key }}:</strong> {{ constants[key] }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</mat-card>

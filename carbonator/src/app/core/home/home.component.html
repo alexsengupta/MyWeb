@@ -1,0 +1,43 @@
+<div class="Home">
+
+  <div class="Home__intro">
+
+    <mat-card>
+
+      <div class="HomeIntro">
+
+        <div class="HomeIntro__content">
+          <h1 class="HomeIntro__title">Welcome to Carbonator</h1>
+          <p><strong>How will temperature, sea level and other climate properties change in the future?</strong></p>
+          <p>To begin your investigation, select one of the experimental scenarios to explore how different factors can change our climate.</p>
+        </div>
+
+        <div class="HomeIntro__actions">
+          <a class="HomeIntro__action" color="primary" mat-raised-button [routerLink]="['explained']">Learn more about Carbonator</a>
+          <a class="HomeIntro__action" color="primary" mat-raised-button [routerLink]="['/faqs']">Frequently asked questions</a>
+          <a class="HomeIntro__action" color="primary" mat-raised-button [routerLink]="['/team']">Meet the Carbonator team</a>
+          <a class="HomeIntro__action" color="accent" mat-raised-button [routerLink]="['/scenario',1]">Start with Scenario #1</a>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+  </div>
+
+  <div class="Home__content">
+
+    <div class="Home__helper">
+      <div class="Home__helperIcon">
+        <mat-icon>help_outline</mat-icon>
+      </div>
+      <div class="Home__helperContent">
+        <p>Select a scenario to begin:</p>
+      </div>
+    </div>
+
+    <app-scenarios-list></app-scenarios-list>
+
+  </div>
+
+</div>

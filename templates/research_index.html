@@ -1,0 +1,9 @@
+<h1>Research</h1>
+
+<ul>
+    {% for title in titles %}
+    <li>
+        <a href="{{ url_for('research_detail', title=title) }}">{{ title }}</a>
+    </li>
+    {% endfor %}
+</ul>

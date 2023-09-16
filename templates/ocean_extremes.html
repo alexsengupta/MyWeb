@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ocean Extremes</title>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+</head>
+<body>
+    <h1>Ocean Extremes</h1>
+    <div>
+        <select id="indexSelector" onchange="updateChart(event)">
+            <option value="nino34">Nino 3.4</option>
+            <option value="nino12">Nino 1.2</option>
+            <option value="nino3">Nino 3</option>
+            <option value="nino4">Nino 4</option>
+        </select>
+        <div style="max-width: 900px; margin: auto;">
+            <canvas id="ninoChart"></canvas>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('ninoChart').getContext('2d');
+        var data = JSON.parse({{ data | tojson }});
+        var chart;
+
+        function createConfig(data, index) {
+            console.log(data);  // Debug: log the data to console
+            return {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: `Nino ${index.toUpperCase()} Index`,
+                        data: Object.values(data),
+                        fill: false,
+                        pointRadius: 0,  // No data points
+                    }]
+                },
+
+                
+                options: {
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    },
+                    plugins: {
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false
+                        },
+                        crosshair: {
+                            line: {
+                                color: '#f87979',  // or any other color
+                                width: 1
+                            }
+                        },
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x',
+                                threshold: 10,
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true,
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'x'
+                            }
+                        }
+                    }
+                }
+
+
+
+
+            };
+        }
+
+        function updateChart(event) {
+            console.log('updateChart triggered'); // Debug: log when function is called
+
+            var index = event ? event.target.value : 'nino34'; // Get value from event if available
+            console.log('Selected index:', index);  // Debug: log the selected index
+
+            if (chart) {
+                chart.destroy();
+            }
+            console.log('updateChart data:', data, 'index:', index, 'data[index]:', data[index]);  // Debug: log the current state of data, index, and data[index]
+            chart = new Chart(ctx, createConfig(data[index], index));
+        }
+
+        updateChart();
+    </script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Ocean Extremes</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs"></script>
+</head>
+<body>
+    <h1>Ocean Extremes</h1>
+    <div>
+        <select id="indexSelector" onchange="updateChart(event)">  
+            <option value="nino34">Nino 3.4</option>
+            <option value="nino12">Nino 1.2</option>
+            <option value="nino3">Nino 3</option>
+            <option value="nino4">Nino 4</option>
+        </select>
+        <div style="max-width: 900px; margin: auto;">
+            <canvas id="ninoChart"></canvas>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('ninoChart').getContext('2d');
+        var data = JSON.parse({{ data | tojson }});
+        var chart;
+ 
+
+        function createConfig(data, index) {
+            console.log(data);  // Debug: log the data to console
+            return {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: `Nino ${index.toUpperCase()} Index`,
+                        data: Object.values(data),
+                        fill: false,
+                        pointRadius: 0,  // No data points
+                    }]
+                },
+                options: {
+                    // ... other options ...
+                    plugins: {
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x',
+                                threshold: 10,
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true,
+                                },
+                                pinch: {
+                                    enabled: true,
+                                },
+                                mode: 'x',
+                            }
+                        }
+                    }
+                }
+
+            };
+        }
+
+
+
+        function updateChart(event) {
+            console.log('updateChart triggered'); // Debug: log when function is called
+
+            var index = event ? event.target.value : 'nino34'; // Get value from event if available
+            console.log('Selected index:', index);  // Debug: log the selected index
+
+            if (chart) {
+                chart.destroy();
+            }
+            console.log('updateChart data:', data, 'index:', index, 'data[index]:', data[index]);  // Debug: log the current state of data, index, and data[index]
+            chart = new Chart(ctx, createConfig(data[index], index));
+        }
+
+
+        updateChart();
+    </script>
+</body>
+</html>
+
+ -->

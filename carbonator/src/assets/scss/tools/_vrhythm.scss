@@ -1,0 +1,11 @@
+$vr-line-height: 1.5 !default;
+$vr-em-base: 16px !default;
+
+@function vr($unit-multiple: 1, $rems: true) {
+	$rhythm-value: $vr-em-base * $vr-line-height / 2;
+	$value: $unit-multiple * $rhythm-value;
+	@if ($rems) {
+		@return rem($value);
+	}
+	@return $value;
+}

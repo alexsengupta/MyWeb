@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ question.title }}</h1>
+  <p>{{ question.content | safe }}</p>
+  <p><strong>Posted by:</strong> {{ question.author.username }} on {{ question.date_posted.strftime('%Y-%m-%d') }}</p>
+  <hr>
+  <h2>Answers</h2>
+  {% for answer in answers %}
+    <div class="answer">
+      <p>{{ answer.content | safe }}</p>
+      <p><strong>Posted by:</strong> {{ answer.author.username }} on {{ answer.date_posted.strftime('%Y-%m-%d') }}</p>
+      {% if current_user.is_authenticated and current_user.admin %}
+        <form action="{{ url_for('delete_answer', question_id=question.id, answer_id=answer.id) }}" method="post">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      {% endif %}
+    </div>
+    <hr>
+  {% endfor %}
+
+  {% if current_user.is_authenticated %}
+    <h2>Add a Response</h2>
+    <form method="post" action="{{ url_for('add_response', question_id=question.id) }}">
+      <div class="form-group">
+        <label for="content">Your Response</label>
+        <textarea class="form-control" name="content" id="content" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  {% endif %}
+{% endblock %}

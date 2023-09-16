@@ -1,0 +1,47 @@
+$em-base: 16px !default;
+
+// Strip units
+// ==================================================
+// Derived from Bourbon by thoughtbot (http://bourbon.io)
+@function strip-units($val) {
+  @return ($val / ($val * 0 + 1));
+}
+
+// Pixels to Ems
+// ==================================================
+// Derived from Bourbon by thoughtbot (http://bourbon.io)
+@function em($pxval, $base: $em-base) {
+  //alteration to prevent strings from causing an error
+  @if (type-of($pxval) == 'string'){
+    @return $pxval;
+  }
+
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1em;
+}
+
+// Pixels to Rems
+// ==================================================
+// Derived from Bourbon by thoughtbot (http://bourbon.io)
+@function rem($pxval) {
+  //alteration to prevent strings from causing an error
+  @if (type-of($pxval) == 'string'){
+    @return $pxval;
+  }
+
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+
+  $base: $em-base;
+
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1rem;
+}

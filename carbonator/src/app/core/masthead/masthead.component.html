@@ -1,0 +1,27 @@
+<mat-toolbar class="Masthead">
+  <mat-toolbar-row>
+
+    <div class="Logo">
+      <a class="Logo__link" [routerLink]="['']">
+        <img class="Logo__img" src="/assets/img/logo_carbonator.png" alt="Carbonator">
+      </a>
+    </div>
+
+    <div class="Menu" fxLayoutAlign="end center" fxHide.lt-md="true">
+      <a mat-button [routerLink]="['']">Home</a>
+      <a mat-button [routerLink]="['/explained']" routerLinkActive="mat-accent">Carbonator Explained</a>
+      <a mat-button [routerLink]="['/faqs']" routerLinkActive="mat-accent">FAQs</a>
+      <a mat-button [routerLink]="['/schools']" routerLinkActive="mat-accent">For Schools</a>
+      <a mat-button [routerLink]="['/team']" routerLinkActive="mat-accent">Our Team</a>
+      <!--<a mat-button (click)="openShareDialog()">Share</a>-->
+      <mat-divider class="Menu__divider" [vertical]="true"></mat-divider>
+      <a mat-button [routerLink]="['/tutorial']">Tutorial</a>
+      <!--<a mat-button (click)="openTutorialDialog()">Tutorial</a>-->
+      <a *ngIf="readOnly$ | async" mat-button (click)="openAdvancedDialog()">Advanced</a>
+      <a *ngIf="!(readOnly$ | async)" mat-button (click)="openAdvancedDialog()">Return to Standard</a>
+    </div>
+
+    <button mat-icon-button fxHide.gt-sm="true" class="Masthead__menuToggle"><mat-icon>more_vert</mat-icon></button>
+
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,11 @@
+<mat-card class="ForcingCard">
+  <div class="ForcingOutput">
+    <div class="ForcingOutput__hd">
+      <h3 class="ForcingOutput__name" [innerHTML]="meta.name"></h3>
+    </div>
+    <div class="ForcingOutput__bd">
+      <strong *ngIf="isEnabled">ENABLED</strong>
+      <strong *ngIf="!isEnabled">DISABLED</strong>
+    </div>
+  </div>
+</mat-card>

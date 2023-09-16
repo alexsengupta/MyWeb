@@ -1,0 +1,434 @@
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+import models
+from database import db
+from flask import Flask, render_template, url_for, flash, redirect, request, abort
+from forms import RegistrationForm, LoginForm, UpdateAccountForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask import session
+from models import User, Question, Answer
+#from forms import RegistrationForm, LoginForm, UpdateAccountForm, QuestionForm, AnswerForm, UpdatePasswordForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, UpdatePasswordForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import os
+from flask import request, redirect, url_for
+from models import User, Question, Answer, Post
+from flask_ckeditor import CKEditor
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, UpdatePasswordForm, BlogPostForm
+import requests
+import markdown
+import json
+import csv
+from itertools import groupby
+from datetime import datetime
+import numpy as np
+import pandas as pd
+from io import StringIO
+import re
+
+app = Flask(__name__)
+app.debug = True
+ckeditor = CKEditor(app)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///climate_forum.db'
+app.config['SQLALCHEMY_BINDS'] = {'blog': 'sqlite:///blog.db'}
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'mysecretkeystring'
+
+
+db.init_app(app)
+migrate = Migrate(app, db)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+def create_database(app):
+    with app.app_context():
+        db.create_all()
+        
+
+def md_to_html_with_title(file_path):
+    with open(file_path, 'r') as file:
+        md_content = file.readlines()
+        title = md_content[0].strip('# ')
+        content = ''.join(md_content[1:])
+        html_content = markdown.markdown(content)
+        return title, html_content
+    
+
+
+def load_data(url):
+    response = requests.get(url)
+    lines = response.text.split('\n')
+
+    # Find the start and end of the data block
+    start = 1  # skipping the first line which is a header
+    end = next(i for i, line in enumerate(lines) if line.strip().startswith('-99.99'))
+
+    # Only keep data lines
+    lines = lines[start:end]
+
+    data_lines = []
+    for line in lines:
+        parts = line.split()
+        if not parts:  # Skip empty lines
+            continue
+        if len(parts) == 3:  # AO data
+            year, month, value = parts
+            if not data_lines or data_lines[-1][0] != year:  # New year
+                data_lines.append([year])
+            data_lines[-1].append(value)
+        else:  # Nino data
+            year = parts[0]
+            values = parts[1:]
+            data_lines.append([year] + values)
+
+    # Convert each line to dictionary format
+    data_dicts = []
+    for line in data_lines:
+        year = line[0]
+        for month, value in enumerate(line[1:], start=1):
+            if value == '-99.99':  # Skip missing values
+                continue
+            data_dicts.append({
+                'label': f'{year}-{str(month).zfill(2)}-01',
+                'value': value
+            })
+    return data_dicts
+
+
+
+
+@app.route('/ocean_extremes')
+def ocean_extremes():
+    nino34 = load_data("https://psl.noaa.gov/gcos_wgsp/Timeseries/Data/nino34.long.anom.data")
+    nino12 = load_data("https://psl.noaa.gov/gcos_wgsp/Timeseries/Data/nino12.long.anom.data")
+    nino3 = load_data("https://psl.noaa.gov/gcos_wgsp/Timeseries/Data/nino3.long.anom.data")
+    nino4 = load_data("https://psl.noaa.gov/gcos_wgsp/Timeseries/Data/nino4.long.anom.data")
+
+    data_dict = {
+        'nino34': nino34,
+        'nino12': nino12,
+        'nino3': nino3,
+        'nino4': nino4,
+    }
+    print(data_dict)  # <-- Add this line
+    return render_template('ocean_extremes.html', data=json.dumps(data_dict, default=str))
+
+
+
+    
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+ 
+@app.route('/research')
+def research():
+    research_files = [f for f in os.listdir('research_snippets') if f.endswith('.md')]
+    research_content = []
+    for file in research_files:
+        file_path = os.path.join('research_snippets', file)
+        title, html_content = md_to_html_with_title(file_path)
+        research_content.append({"title": title, "content": html_content})
+    return render_template('research.html', research=research_content)
+
+
+
+
+
+
+# Alex Home Page
+@app.route('/alex_ccrc')
+def load_images():
+    print("in alex_ccrc") 
+    image_folder = 'static/rolling_images'  # Replace with the path to your image folder
+    images = os.listdir(image_folder)
+    images = ['/' + image_folder + '/' + image for image in images]  # Create the full path for each image
+    return render_template('alex_ccrc.html', images=images)
+
+
+@app.route('/publications')
+def publications():
+    csv_file_path = 'papers/scopus.csv'  # Replace with your actual CSV file path
+    publications = []
+
+    with open(csv_file_path, newline='', encoding='utf-8-sig') as csvfile:
+        reader = csv.DictReader(csvfile, quotechar='"')
+        for row in reader:
+            publications.append(row)
+
+    # Sort publications by year and group them by year
+    publications.sort(key=lambda x: x['Year'], reverse=True)
+    publications_by_year = {k: list(v) for k, v in groupby(publications, key=lambda x: x['Year'])}
+    
+    return render_template('publications.html', sorted_publications=publications_by_year)
+
+
+# Climate Forum
+@app.route('/climate-model-forum')
+def climate_model_forum():
+    questions = Question.query.order_by(Question.date_posted.desc()).all()
+    users = User.query.all()
+    return render_template('climate_model_forum.html', questions=questions, users=users)
+
+
+
+
+@app.route('/climate-model-forum/question/<int:question_id>')
+def question(question_id):
+    question = models.Question.query.get_or_404(question_id)
+    answers = models.Answer.query.filter_by(question_id=question_id).order_by(models.Answer.date_posted.desc()).all()
+    return render_template('question.html', question=question, answers=answers)
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256", salt_length=8)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, profile=form.profile.data, notifications=form.notifications.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.username.data}!', 'success')
+        login_user(user)
+        return redirect(url_for('climate_model_forum'))
+    return render_template('register.html', title='Register', form=form)
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, profile=form.profile.data, notifications=form.notifications.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.username.data}!', 'success')
+        login_user(user)
+        return redirect(url_for('climate_model_forum'))
+    return render_template('register.html', title='Register', form=form)
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and check_password_hash(user.password, form.password.data):
+            login_user(user)
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('climate_model_forum'))
+        else:
+            flash('Login failed. Check your email and password.', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for("climate_model_forum"))
+
+@app.route('/climate-model-forum/add-question', methods=['GET', 'POST'])
+@login_required
+def add_question():
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        user_id = current_user.id
+        question = Question(title=title, content=content, user_id=user_id)
+        db.session.add(question)
+        db.session.commit()
+
+        # Send email to the admin
+        admin_email = "admin@example.com"  # Replace with the admin's email address
+        subject = f"Climate Model Forum: {title}"
+        body = f"Question posted by {current_user.username}:\n\n{content}\n\nTo stop receiving notifications, please uncheck your notifications in the Climate Model Forum Account Settings."
+        send_email([admin_email], subject, body)
+
+        return redirect(url_for('climate_model_forum'))
+    return render_template('add_question.html')
+
+
+@app.route('/climate-model-forum/question/<int:question_id>/add-response', methods=['POST'])
+@login_required
+def add_response(question_id):
+    question = Question.query.get_or_404(question_id)
+    content = request.form['content']
+    user_id = current_user.id
+    answer = models.Answer(content=content, user_id=user_id, question_id=question_id)
+    db.session.add(answer)
+    db.session.commit()
+
+    # Send email to the user who posted the question
+    if question.author.notifications:  # Only send if the user has notifications enabled
+        subject = f"Climate Model Forum: {question.title}"
+        body = f"Question posted by {question.author.username}:\n\n{question.content}\n\n"
+        body += f"New answer posted by {current_user.username}:\n\n{content}\n\n"
+        body += "To stop receiving notifications, please uncheck your notifications in the Climate Model Forum Account Settings."
+        send_email([question.author.email], subject, body)
+
+    return redirect(url_for('question', question_id=question_id))
+
+
+
+@app.route('/climate-model-forum/question/<int:question_id>/delete', methods=['POST'])
+@login_required
+def delete_question(question_id):
+    question = Question.query.get_or_404(question_id)
+    if not current_user.admin:
+        abort(403)
+
+    answers = Answer.query.filter_by(question_id=question_id).all()
+    for answer in answers:
+        db.session.delete(answer)
+
+    db.session.delete(question)
+    db.session.commit()
+    flash('Question has been deleted.', 'success')
+    return redirect(url_for('climate_model_forum'))
+
+
+@app.route('/climate-model-forum/question/<int:question_id>/delete-answer/<int:answer_id>', methods=['POST'])
+@login_required
+def delete_answer(question_id, answer_id):
+    answer = Answer.query.get_or_404(answer_id)
+    if current_user.admin:
+        db.session.delete(answer)
+        db.session.commit()
+    return redirect(url_for('question', question_id=question_id))
+
+
+
+@app.route("/account", methods=["GET", "POST"])
+@login_required
+def account():
+    form_account = UpdateAccountForm(request.form, prefix="account")
+    form_password = UpdatePasswordForm(request.form, prefix="password")
+
+    if request.method == "POST":
+        print("POST request received.")
+        print("Request form data:", request.form)
+
+        if 'submit' in request.form:
+            form_account.submit.data = True
+
+        if 'submit_password' in request.form:
+            form_password.submit_password.data = True
+
+    print("Account form submit data:", form_account.submit.data)  # Debugging line
+    print("Password form submit data:", form_password.submit_password.data)  # Debugging line
+
+
+    if form_account.submit.data:
+        if form_account.validate_on_submit():
+            current_user.username = form_account.username.data
+            current_user.email = form_account.email.data
+            current_user.profile = form_account.profile.data
+            current_user.notifications = form_account.notifications.data
+            db.session.commit()
+            flash("Your account has been updated.", "success")
+            return redirect(url_for("account"))
+
+    if form_password.submit_password.data:
+        print("Password form submitted.")  # Debugging line
+        print(f"Stored password hash: {current_user.password}")  # Debugging line
+        if form_password.validate_on_submit():
+            if check_password_hash(current_user.password, form_password.current_password.data):
+                hashed_password = generate_password_hash(form_password.new_password.data, method="pbkdf2:sha256", salt_length=8)
+                current_user.password = hashed_password
+                db.session.commit()
+                flash("Your password has been updated.", "success")
+                return redirect(url_for("account"))
+            else:
+                flash("Incorrect current password.", "danger")
+                print("Incorrect current password.")  # Debugging line
+        else:
+            print("Form data:", request.form)  # Debugging line
+            print("Password form errors:", form_password.errors)  # Debugging line
+
+    form_account.username.data = current_user.username
+    form_account.email.data = current_user.email
+    form_account.profile.data = current_user.profile
+    form_account.notifications.data = current_user.notifications
+
+    return render_template("account.html", title="Account", form_account=form_account, form_password=form_password)
+
+
+@app.route('/blog', methods=['GET', 'POST'])
+def blog():
+    form = BlogPostForm()
+    posts = Post.query.order_by(Post.date_posted.desc()).all()
+    if form.validate_on_submit() and current_user.is_authenticated and current_user.admin:
+        post = Post(title=form.title.data, content=form.content.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('blog'))
+    return render_template('blog.html', posts=posts, form=form)
+
+
+
+@app.route('/create_post', methods=['GET', 'POST'])
+def create_post():
+    if not current_user.is_authenticated or not current_user.admin:
+        abort(403)
+
+    form = BlogPostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('blog'))
+    return render_template('blog.html', form=form)
+
+
+@app.route('/delete_post/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    if not current_user.admin:
+        abort(403)
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('blog'))
+
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not current_user.admin:
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted.', 'success')
+    return redirect(url_for('climate_model_forum'))
+
+
+def send_email(to_email, subject, content):
+    message = Mail(
+        from_email='a.sengupta@unsw.edu.au',
+        to_emails=to_email,
+        subject=subject,
+        html_content=content)
+
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        #sg = SendGridAPIClient('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')
+        response = sg.send(message)
+        print("Fresponse.status_code:", response.status_code)
+    except Exception as e:
+        print(e)
+
+
+if __name__ == '__main__':
+    create_database(app)
+    app.run(debug=True, use_reloader=False)

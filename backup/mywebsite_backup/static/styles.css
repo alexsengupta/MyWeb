@@ -1,0 +1,9 @@
+:root {
+    --main-bg-color: #A9A9A9; /* Replace with your desired background color */
+    --main-text-color: #333; /* Replace with your desired text color */
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}

@@ -1,0 +1,296 @@
+app-root {
+  height: 100%;
+}
+
+.App {
+  padding-top: 64px;
+
+  &__masthead {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: z(masthead);
+  }
+
+  &__body {
+    background-color: $color-white-smoke;
+  }
+
+  &__mandatories {}
+
+  &__widthWarning {
+    position: fixed;
+    z-index: z(widthWarning);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #455a64;
+    color: #FFFFFF;
+
+    @include mq-from(widthWarning) {
+      display: none;
+      z-index: -1;
+    }
+  }
+
+  &__warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    width: 100%;
+    padding: {
+      left: 15px;
+      right: 15px;
+    }
+  }
+}
+
+.Masthead {
+
+  &.mat-toolbar {
+    background-color: mat-color($carbonator-app-primary, darker);
+    color: $color-white;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  }
+
+  > .mat-toolbar-row {
+    justify-content: space-between;
+  }
+
+  &__menuToggle {}
+}
+
+.Logo {
+
+  &__link {
+    display: block;
+  }
+
+  &__img {
+    height: 34px;
+  }
+}
+
+.Menu {
+
+  &__divider.mat-divider {
+    display: inline-block;
+    line-height: 36px;
+    height: 36px;
+    border-color: mat-color($carbonator-app-primary, lighter);
+  }
+}
+
+.Mandatories {
+
+  &.mat-toolbar {
+    background-color: mat-color($carbonator-app-primary, lighter);
+    color: $color-night;
+    box-shadow: none;
+  }
+
+  > .mat-toolbar-row {
+    justify-content: space-between;
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 36px;
+    font-weight: $font-weight-normal;
+    display: inline-block;
+    margin-right: 16px;
+  }
+
+  &__link {
+    margin-right: 16px;
+    display: inline-block;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__img {
+    height: 36px;
+    width: auto;
+    margin-right: 16px;
+  }
+}
+
+.Page {
+  width: 100%;
+  max-width: 780px;
+  margin: 50px auto;
+
+  &__title {
+    font-size: 32px;
+    line-height: 1.2;
+    font-family: $font-family-serif;
+    font-weight: $font-weight-bold;
+    margin-bottom: 40px;
+  }
+
+  &__tiles {}
+
+  &__tile {
+    margin: 5px;
+    width: 45%;
+  }
+
+  .mat-tab-group {
+    background-color: $color-white;
+    padding: 10px 20px;
+  }
+
+  .mat-tab-body {
+    padding: 20px 5px;
+  }
+
+  .mat-expansion-panel-header {
+
+    &.mat-expanded {
+
+      &, &:focus, &:hover {
+        background-color: mat-color($carbonator-app-primary, darker);
+        color: $color-white;
+      }
+
+      .mat-expansion-panel-header-description,
+      .mat-expansion-indicator::after {
+        color: $color-white;
+      }
+    }
+  }
+
+  .mat-expansion-panel-body {
+    background-color: mat-color($carbonator-app-primary, lighter);
+    padding: 24px;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.ScenarioMenu {
+  background-color: #35464e;
+  color: $color-white;
+  width: 160px !important;
+
+  &__header {
+    padding: 16px;
+    background-color: rgba($color-black, 0.2);
+    font-size: 14px;
+  }
+
+  .mat-nav-list,
+  .mat-nav-list[dense] {
+    padding-top: 0;
+
+    .mat-nav-list {
+      background-color: mat-color($carbonator-app-primary);
+      box-shadow:
+        inset 0px 11px 8px -10px rgba(0,0,0,.3),
+        inset 0px -11px 8px -10px rgba(0,0,0,.3);
+    }
+  }
+
+  .mat-list-item {
+    color: $color-white;
+    font-size: 12px;
+    line-height: 16px;
+    height: 42px !important;
+
+    .mat-list-item-content {
+      padding: {
+        left: 0 !important;
+        right: 0 !important;
+      }
+
+      a.mat-line {
+        padding: {
+          top: 13px;
+          bottom: 13px;
+          left: 16px;
+          right: 16px;
+        }
+
+        &.active {
+          background-color: rgba($color-black, 0.4);
+        }
+      }
+    }
+  }
+}
+
+.ScenariosList {
+
+  .ScenariosList {
+
+    &__scenario {
+
+      &:nth-child(odd) {
+
+        .ScenariosList__inner {
+          padding-right: 8px;
+        }
+      }
+
+      &:nth-child(even) {
+
+        .ScenariosList__inner {
+          padding-left: 8px;
+        }
+      }
+    }
+
+    &__inner {
+      height: 100%;
+      padding-bottom: 24px;
+    }
+
+    &__title {
+      line-height: 1.2;
+      font-size: 18px;
+      margin-bottom: 8px !important;
+    }
+
+    &__content {
+      padding-left: 20px;
+    }
+
+    &__actions {
+      padding: {
+        top: 10px;
+        left: 20px;
+      }
+    }
+
+    &__action {
+      margin-right: 10px;
+    }
+
+    &__card {
+      height: 100%;
+      padding: 16px;
+    }
+  }
+}
+
+.Team {
+
+  &__name {
+    font-weight: 500;
+    font-size: 18px;
+  }
+}

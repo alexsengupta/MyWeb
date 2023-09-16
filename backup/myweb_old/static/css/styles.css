@@ -1,0 +1,32 @@
+:root {
+    --main-bg-color: #a78a66; /* Earth background color */
+    --main-text-color: #333; /* Text color */
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+
+.navbar {
+    background-color: #5a4328 !important; /* Replace with your desired menu bar color */
+    color: #ffffff !important; /* Replace with your desired text color */
+}
+
+.navbar .nav-link {
+    color: #ffffff !important; /* Replace with your desired link color */
+}
+
+.container a {
+    color: #000080; /* Replace with your desired link color */
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+    color: black;
+    text-align: center;
+}

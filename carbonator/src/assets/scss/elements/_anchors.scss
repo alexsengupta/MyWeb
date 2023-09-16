@@ -1,0 +1,45 @@
+$base-link-color: $color-default-anchor !default;
+$base-link-decoration: underline !default;
+$base-link-hover-color: $base-link-color !default;
+$base-link-hover-decoration: $base-link-decoration !default;
+$base-link-active-color: $color-default-anchor-active !default;
+$base-link-active-decoration: $base-link-decoration !default;
+$base-link-visited-color: $color-default-anchor-visited !default;
+$base-link-visited-decoration: $base-link-decoration !default;
+$base-link-focus-outline: thin dotted !default;
+$base-link-focus-outline-webkit: 5px auto -webkit-focus-ring-color !default;
+$base-link-focus-outline-offset: -2px !default;
+$base-link-cursor: $cursor-pointer !default;
+
+// ==============================
+// Base Link Styling
+// ==============================
+
+a {
+  color: $base-link-color;
+  text-decoration: $base-link-decoration;
+  cursor: $base-link-cursor;
+
+  &:hover,
+  &:focus {
+    color: $base-link-hover-color;
+    text-decoration: $base-link-hover-decoration;
+  }
+
+  &:active {
+    color: $base-link-active-color;
+    text-decoration: $base-link-active-decoration;
+  }
+
+  &:visited {
+    color: $base-link-visited-color;
+    text-decoration: $base-link-visited-decoration;
+  }
+  &:focus {
+    // Default
+    outline: $base-link-focus-outline;
+    // WebKit
+    outline: $base-link-focus-outline-webkit;
+    outline-offset: $base-link-focus-outline-offset;
+  }
+}

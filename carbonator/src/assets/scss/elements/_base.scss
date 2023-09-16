@@ -1,0 +1,44 @@
+$base-font-size: 100% !default;
+$base-line-height: 1.5 !default;
+$base-background: $color-white !default;
+$base-color: $color-night !default;
+$base-font-family: $font-family-sans-serif !default;
+$base-strong-weight: $font-weight-bold !default;
+
+/**
+ * A thin layer on top of normalize.css that provides a starting point more
+ * suitable for web applications. Removes the default spacing and border for
+ * appropriate elements.
+ */
+html, body {
+	font-size: $base-font-size;
+  height: 100%;
+}
+
+body {
+	background: $base-background;
+	color: $base-color;
+	cursor: $cursor-auto;
+	font-family: $base-font-family;
+	font-size: $base-font-size;
+	font-style: normal;
+	font-weight: $font-weight-normal;
+	line-height: $base-line-height;
+	margin: 0;
+	padding: 0;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+/**
+ * Suppress the focus outline on links that cannot be accessed via keyboard.
+ * This prevents an unwanted focus outline from appearing around elements that
+ * might still respond to pointer events.
+ */
+[tabindex="-1"]:focus {
+	outline: none !important;
+}
+
+strong {font-weight: $base-strong-weight;}

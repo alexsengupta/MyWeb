@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- <h1>Climate Model Forum</h1> -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if current_user.is_authenticated %}
+                <p><a href="{{ url_for('add_question') }}">Add a New Question</a></p>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <p>
+                    <a href="{{ url_for('register') }}">Register</a> |
+                    <a href="{{ url_for('login') }}">Login</a>
+                </p>
+            {% endif %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                    <tr>
+                        <td><a href="{{ url_for('question', question_id=question.id) }}">{{ question.title }}</a></td>
+                        <td>{{ question.date_posted.strftime('%Y-%m-%d') }}</td>
+                        {% if current_user.is_authenticated and current_user.admin %}
+                        <td>
+                            <form action="{{ url_for('delete_question', question_id=question.id) }}" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if current_user.is_authenticated and current_user.admin %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Users</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<div class="Page">
+
+  <h1 class="Page__title">Tutorial</h1>
+
+  <mat-tab-group>
+
+    <mat-tab label="How to use Carbonator">
+      <ng-template matTabContent>
+
+        <ol>
+          <li>Select a pre-defined emission scenario (from the left hand panel). These includes RCP scenarios used by the intergovernmental panel on climate change and a number of other simple test scenarios.</li>
+          <li>Time series of input variables (forcings) are shown for:
+            <ul>
+              <li>CO2 emissions</li>
+              <li>CH4 emissions</li>
+              <li>SO2 emissions (human aerosols)</li>
+              <li>Volcanic aerosol emissions</li>
+              <li>Solar energy at top of the atmosphere</li>
+              <li>Albedo (planet reflectivity)</li>
+            </ul>
+          </li>
+          <li>Individual forcings can be turned off and on (to isolate the influence of particular forcings on the climate system)</li>
+          <li>Press the RUN SCENARIO button. This will set in motion the model. Many thousands of calculations will be done in the background in the energy balance, carbon cycle and methane models.</li>
+          <li>Output variables will be displayed.</li>
+          <li>You can also create your own scenario. Just select the advanced mode.</li>
+        </ol>
+
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Advanced Mode">
+      <ng-template matTabContent>
+        <h2>Advanced Mode</h2>
+        <ol>
+          <li>
+            <p>Here you can edit the input timeseries to generate your own scenarios. For most input variable you need to select the number of nodes to edit</p>
+            <p><img src="/assets/img/content/36.png" style="max-width: 100%;"></p>
+          </li>
+          <li>
+            <p>You can then drag nodes up and down</p>
+            <p><img src="/assets/img/content/37.png" style="max-width: 100%;"></p>
+          </li>
+          <li>
+            <p>For volcanics you have the option to generate random time series of volcanic emissions</p>
+          </li>
+          <li>
+            <p>In advanced mode you also have the ability to edit model parameters (this should be done with care, altering these parameters can start giving you unrealistic results).</p>
+            <p><img src="/assets/img/content/38.png" style="max-width: 100%;"></p>
+          </li>
+        </ol>
+      </ng-template>
+    </mat-tab>
+
+  </mat-tab-group>
+
+</div>

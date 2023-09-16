@@ -1,0 +1,73 @@
+$mq-breakpoints: () !default;
+$mq-ems: false !default;
+
+@function get-mq-breakpoint($breakpoint) {
+	@if ($mq-breakpoints) {
+		@if map-has-key($mq-breakpoints, $breakpoint) {
+			$bp: map-get($mq-breakpoints, $breakpoint);
+
+			@if ($mq-ems) {
+				@return em($bp);
+			}
+
+			@return $bp;
+
+		} @else {
+			@error "No value could be retrieved from `#{$breakpoint}`. "
+		    + "Please make sure it is defined in a `$mq-breakpoints` map.";
+		}
+
+	} @else {
+		@warn "No `$mq-breakpoints` map exists. Please define this before using the media query mixins.";
+	}
+}
+
+@mixin mq-before($end) {
+
+	@media all and (max-width: (get-mq-breakpoint($end) - em(1))) {
+		@content;
+	}
+}
+
+@mixin mq-to($end) {
+
+	@media all and (max-width: get-mq-breakpoint($end)) {
+		@content;
+	}
+}
+
+@mixin mq-fromto($start, $end) {
+
+	@media all and (min-width: get-mq-breakpoint($start)) and (max-width: get-mq-breakpoint($end)) {
+		@content;
+	}
+}
+
+@mixin mq-frombefore($start, $end) {
+
+	@media all and (min-width: get-mq-breakpoint($start)) and (max-width: get-mq-breakpoint($end) - em(1)) {
+		@content;
+	}
+}
+
+@mixin mq-from($start) {
+
+	@media all and (min-width: get-mq-breakpoint($start)) {
+		@content;
+	}
+}
+
+@mixin mq-after($start) {
+
+	@media all and (min-width: (get-mq-breakpoint($start) + em(1))) {
+		@content;
+	}
+}
+
+// alias of mq-from($start)
+@mixin mq($start) {
+
+	@media all and (min-width: get-mq-breakpoint($start)) {
+		@content;
+	}
+}

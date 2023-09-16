@@ -1,0 +1,9 @@
+<div class="IntVariabilityToggle">
+  <div class="IntVariabilityToggle__hd">
+    <h4 class="IntVariabilityToggle__name">Internal Variability:</h4>
+    <mat-slide-toggle class="IntVariabilityToggle__toggle" [checked]="isEnabled" (change)="doUpdateIsEnabled($event)"></mat-slide-toggle>
+  </div>
+  <div class="IntVariabilityToggle__bd">
+    <p class="IntVariabilityToggle__help">Enable internal variability to include random climate variability that exists in the system naturally (e.g. fluctuations like El Niño and La Niña).</p>
+  </div>
+</div>

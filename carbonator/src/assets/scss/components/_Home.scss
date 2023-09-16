@@ -1,0 +1,60 @@
+.Home {
+  padding: 25px;
+
+  &__intro {
+
+  }
+
+  &__content {
+
+  }
+
+  &__helper {
+    margin: {
+      top: 16px;
+      bottom: 16px;
+    }
+    padding: 16px;
+    background-color: #607d8b;
+    color: #FFF;
+    position: relative;
+
+    &--pre {
+
+    }
+
+    &--post {
+      padding: 8px;
+      margin-bottom: 16px;
+      font-weight: 500;
+
+      .Simulation__helperContent {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__helperIcon {
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    height: 24px;
+  }
+
+  &__helperContent {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 40px;
+
+    > p {
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+

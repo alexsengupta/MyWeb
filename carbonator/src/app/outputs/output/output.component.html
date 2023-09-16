@@ -1,0 +1,19 @@
+<mat-card class="ForcingCard">
+  <div class="Output Output--{{ key }}">
+    <div class="Output__hd">
+      <h3 class="Output__name" [innerHTML]="meta.name"></h3>
+      <p class="Output__summary" [innerHTML]="meta.summary"></p>
+    </div>
+    <div class="Output__bd">
+      <app-highcharts-chart
+        class="Output__chart"
+        [Highcharts]="Highcharts"
+        [constructorType]="chartConstructor"
+        [options]="chartOptions"
+        [(update)]="updateFlag"
+        [flagOneToOne]="flagOneToOne"
+        style="width: 100%; height: 300px; display: block;"
+      ></app-highcharts-chart>
+    </div>
+  </div>
+</mat-card>

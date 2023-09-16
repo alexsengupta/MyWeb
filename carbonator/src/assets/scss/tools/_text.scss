@@ -1,0 +1,57 @@
+//Enables font kerning in all browsers.
+//http://blog.typekit.com/2014/02/05/kerning-on-the-web/
+//1. Chrome (not Windows), Firefox, Safari 6+, iOS, Android
+//2. Chrome (not Windows), Firefox, IE 10+
+//3. Safari 7 and future browsers
+@mixin text-kern() {
+  text-rendering: optimizeLegibility; // 1
+  font-feature-settings: "kern" 1, "salt" 1; // 2
+  font-kerning: normal; // 3
+}
+
+//Text truncation
+//Prevent text from wrapping onto multiple lines, and truncate with an
+//ellipsis.
+//1. Ensure that the node has a maximum width after which truncation can
+//   occur.
+//2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+//   nodes.
+@mixin text-truncate() {
+  max-width: 100%; // 1
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal; // 2
+}
+
+// Maybe not good globally? Def good for light text on dark bg
+// http://branch.com/b/please-stop-fixing-font-smoothing
+@mixin text-font-smoothing() {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+@mixin text-hidden-accessible() {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@function text-contrast($n) {
+  $color-brightness: round((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000);
+  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
+
+  @if abs($color-brightness) < ($light-color/2){
+    // dark bg needs light text
+    @return light;
+  }
+
+  @else {
+    // light bg needs dark text
+    @return dark;
+  }
+}

@@ -1,0 +1,35 @@
+<div class="App" fxFlexFill>
+
+  <div class="App__masthead">
+    <app-masthead></app-masthead>
+  </div>
+
+  <mat-sidenav-container fxFlexFill>
+
+    <mat-sidenav mode="side" opened class="ScenarioMenu">
+      <app-scenarios-menu></app-scenarios-menu>
+    </mat-sidenav>
+
+    <mat-sidenav-content fxLayout="column" fxLayoutAlign="space-between">
+
+      <div class="App__body">
+        <router-outlet></router-outlet>
+      </div>
+
+      <div class="App__mandatories">
+        <app-mandatories></app-mandatories>
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+  <div class="App__widthWarning">
+    <div class="App__warning mat-typography">
+      <img style="width:207px; height: auto; margin-bottom: 16px;" src="/assets/img/logo_carbonator.png" alt="Carbonator">
+      <h3>Please switch to a wider device in order to use Carbonator.</h3>
+      <p>You'll need an iPad in landscape mode (1024px) or wider.</p>
+    </div>
+  </div>
+
+</div>

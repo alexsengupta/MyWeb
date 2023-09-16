@@ -1,0 +1,50 @@
+--- fmars-06-00031.pdf ---
+DOI:
+10.3389/fmars.2019.00031
+Tropical
+Title:
+Tropical Pacific Observing System
+Authors:
+Neville Smith
+William S. Kessler
+Sophie Cravatte
+Janet Sprintall
+Susan Wijffels
+Meghan F. Cronin
+Adrienne Sutton
+Yolande L. Serra
+Boris Dewitte
+Peter G. Strutton
+Katherine Hill
+Alex Sen Gupta
+Xiaopei Lin
+Ken Takahashi
+Dake Chen
+Shelby Brunner
+Publication Year:
+2019
+Journal/Book Chapter:
+Frontiers in Marine Science
+Abstract:
+N/A
+--- Scutt_Phillips_2019_Environ._Res._Commun._1_055001-2.pdf ---
+DOI:
+10.1088/2515-7620/ab21e9
+PAPER
+fi
+Regionalconnectivityandspatialdensitiesofdrifting
+Title:
+Regional connectivity and spatial densities of drifting fish aggregating devices, simulated from fishing events in the Western and Central Pacific Ocean
+Authors:
+J Scutt Phillips
+L Escalle
+G Pilling
+A Sen Gupta
+E van Sebille
+Publication Year:
+2019
+Journal/Book Chapter:
+Environmental Research Communications
+Abstract:
+<jats:title>Abstract</jats:title>
+               <jats:p>The increased use of drifting Fish Aggregating Devices (dFADs) by tuna purse seine fleets in recent years has supported considerable catches of these species. A greater understanding of the spatiotemporal dynamics of these objects as they drift with ocean currents is critical for understanding historical changes in fishing power, spatial management, and examining the effect of ambient dFAD density on catch and effort. Here, dFAD dynamics were estimated for all floating object sets made by purse seiners in the Western and Central Pacific Ocean during 2016 and 2017. The drift trajectories of these floating objects prior to the observed fishing events were estimated by seeding virtual Lagrangian particles within a state-of-the-art hydrodynamics model, and simulating their movements backwards in time. Resulting trajectory distributions are similar to observed dFAD trajectories from the same period. The approach provides spatial density estimates in areas where observed dFAD data are incomplete, particularly in the exclusive economic zone (EEZ) of Howland and Baker Islands, and certain high seas areas. We provide estimates of inter-EEZ connectivity of dFADs, which highlight the fact that dFADs set upon in small EEZs such as Nauru and Howland and Baker Islands are likely to have drifted from neighbouring EEZs less than one month prior to fishing. dFADs typically transited multiple EEZs, with a median of 4 and a maximum of 14, when assuming a drift-time of six months. Moreover, between 4 and 22% of dFAD sets made in the WCPO were estimated to have originated from the Eastern Pacific Ocean, depending on drift-time. We examine our results in the context of the improved management and assessment of dFAD fisheries, providing a methodology to estimated relative dFAD density over historical periods to support analyses of catch and effort. The sensitivity of these estimates to hydrodynamic models, including the proposed SKIM doppler radar altimetry method, is discussed.</jats:p>

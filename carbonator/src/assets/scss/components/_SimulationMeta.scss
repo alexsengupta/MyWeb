@@ -1,0 +1,48 @@
+.SimulationMeta {
+  @include clearfix;
+
+  &__img {
+    float: left;
+    width: 140px;
+    height: auto;
+  }
+
+  &__items {
+    margin-left: 140px;
+    padding-left: 16px;
+  }
+
+  &__item {
+    margin: {
+      top: 0;
+      bottom: 0;
+    }
+    font-size: 13px;
+    line-height: 1.5;
+
+    &--name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    &--range {
+
+
+      &Label {
+        font-weight: 500;
+      }
+
+      &Type {
+
+      }
+    }
+
+    &--summary {
+      margin-top: 7px;
+    }
+  }
+
+  &__actions {
+
+  }
+}

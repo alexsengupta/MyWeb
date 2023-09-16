@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>Alex Blog</h1>
+
+{% for post in posts %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    <p>Posted on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+    <p>{{ post.content | safe }}</p>
+    {% if current_user.is_authenticated and current_user.admin %}
+    <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}">
+        <input type="submit" value="Delete">
+    </form>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% if current_user.is_authenticated and current_user.admin %}
+<div class="new-post">
+    <h2>Create a New Post</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <label for="title">Title:</label><br>
+        {{ form.title(id='title') }}<br>
+        <label for="content">Content:</label><br>
+        {{ form.content(id='content', rows=10) }}
+        {{ ckeditor.config(name='content') }} <!-- This line is uncommented -->
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}

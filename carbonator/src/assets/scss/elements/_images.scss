@@ -1,0 +1,13 @@
+// ==============================
+// Image Normalisation
+// ==============================
+// Get rid of gap under images by making them display: inline-block; by default
+img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  -ms-interpolation-mode: bicubic;
+}
